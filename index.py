@@ -6,10 +6,10 @@ import sqlite3
 class Product:
 
     def __init__(self,window):
-        self.wind = window
-        self.wind.title('Producto')
+        self.window = window
+        self.window.title('Producto')
 
-        frame = LabelFrame(self.wind, text = 'Registra un nuevo producto')
+        frame = LabelFrame(self.window, text = 'Registra un nuevo producto')
         frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
 
         Label(frame, text = 'Nombre: ').grid(row = 1, column = 0)
@@ -21,11 +21,17 @@ class Product:
         self.price = Entry(frame)
         self.price.grid(row = 2, column = 1)
 
-        ttk.Button(frame, text = 'Guardar').grid(row = 3, columnspan = 3, sticky = W + E)
+        button = ttk.Button(frame, text = 'Guardar')
+        button.grid(row = 3, columnspan = 3, sticky = W + E)
+
+        self.tree = ttk.Treeview(height = 10, columns = 2)
+        self.tree.grid(row = 4, column = 0, columnspan = 2)
+        self.tree.heading('#0', text = "Nombre", anchor = CENTER)
+        self.tree.heading('#1', text = "Precio", anchor = CENTER)
 
 
 
 if __name__ == '__main__':
-    window = Tk()
-    application = Product(window)
-    window.mainloop()
+    winsdow = Tk()
+    application = Product(winsdow)
+    winsdow.mainloop()
