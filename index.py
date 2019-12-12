@@ -7,7 +7,7 @@ class Product:
 
     def __init__(self,window):
         self.window = window
-        self.window.title('Producto')
+        self.window.title('Control de Productos')
 
         frame = LabelFrame(self.window, text = 'Registra un nuevo producto')
         frame.grid(row = 0, column = 0, columnspan = 3, pady = 20)
