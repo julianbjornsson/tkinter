@@ -5,6 +5,8 @@ import sqlite3
 
 class Product:
 
+    db_prod = 'database.db'
+
     def __init__(self,window):
         self.window = window
         self.window.title('Control de Productos')
