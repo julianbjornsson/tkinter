@@ -31,7 +31,25 @@ class Product:
         self.tree.heading('#0', text = "Nombre", anchor = CENTER)
         self.tree.heading('#1', text = "Precio", anchor = CENTER)
 
+        self.get_products()
 
+    def run_query(self, query, param = ()):
+        with sqlite3.connect(self.db_prod) as conn:
+            cursor = conn.cursor()
+            result = cursor.execute(query, param)
+            conn.commit()
+        return result
+
+    def get_products(self):
+        # limpio tabla
+        records = self.tree.get_children()
+        for elem in records:
+            self.tree.delete(elem)
+        #consulto datos
+        query = 'SELECT * FROM products ORDER BY Nombre DESC'
+        db_rows = self.run_query(query)
+        for row in db_rows:
+            self.tree.insert('', 0, text = row[1], values = row[2])
 
 if __name__ == '__main__':
     winsdow = Tk()
