@@ -27,9 +27,11 @@ class Product:
         button.grid(row = 3, columnspan = 3, sticky = W + E)
 
         self.tree = ttk.Treeview(height = 10, columns = 2)
-        self.tree.grid(row = 4, column = 0, columnspan = 2)
+        self.tree.grid(row = 4, column = 0, columnspan = 2, pady = 20)
         self.tree.heading('#0', text = "Nombre", anchor = CENTER)
         self.tree.heading('#1', text = "Precio", anchor = CENTER)
+        #self.tree.heading('#2', text = "Test", anchor = CENTER)
+
 
         self.get_products()
 
@@ -49,9 +51,14 @@ class Product:
         query = 'SELECT * FROM products ORDER BY Nombre DESC'
         db_rows = self.run_query(query)
         for row in db_rows:
-            self.tree.insert('', 0, text = row[1], values = row[2])
+            self.tree.insert('', END, values=row[2], text = row[1])
+
+
+
 
 if __name__ == '__main__':
-    winsdow = Tk()
-    application = Product(winsdow)
-    winsdow.mainloop()
+    window = Tk()
+    application = Product(window)
+    window.mainloop()
+
+##ESTO ES UNA PRUEBA PARA QUE VEA LA MONA JEJEJEJEJJEE
