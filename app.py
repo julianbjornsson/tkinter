@@ -18,9 +18,9 @@ def crear_tabla():
     c.commit()
 
 def add_data(name, lastname, email, age, date_of_birth, address, phonenumber):
-    window.geometry("700x650")
-    c.execute('INSERT INTO pacientes (name, lastname, email, age, date_of_birth, address, phonenumber) VALUES (?,?,?,?,?,?,?);', (name, lastname, email, age, date_of_birth, address, phonenumber))
-    c.commit()
+    window.geometry("750x650")
+    c.execute('INSERT INTO pacientes (name, lastname, email, age, date_of_birth, address, phonenumber) VALUES ({}, {}, {}, {}, {},{}, {})'.format(name, lastname, email, age, date_of_birth, address, phonenumber))
+    conn.commit()
 
 def ver_todo():
     root.geometry("1400x400")
@@ -58,87 +58,94 @@ tab_control.add(tab5,text = "Acerca de...")
 
 tab_control.pack(expand=1, fill="both")
 
-label1 = Label(tab1, text = 'Ingreso de datos de pacientes', pady = 5, padx = 5)
-label1.grid(column = 0, row = 0)
+label1 = Label(tab1, text = '--- Ingreso de datos de pacientes ---', pady = 5, padx = 5)
+label1.grid(column = 1, row = 0)
 label1.configure(bg = '#3d424a', foreground = "white", font=("Courier", 15, "bold"))
 
-label2 = Label(tab2, text = 'Listado de pacientes', pady = 5, padx = 5)
+label2 = Label(tab2, text = '--- Listado de pacientes ---', pady = 5, padx = 5)
 label2.grid(column = 0, row = 0)
 label2.configure(bg = '#3d424a', foreground = "white", font=("Courier", 15, "bold"))
 
-label3 = Label(tab3, text = 'Busqueda de pacientes', pady = 5, padx = 5)
+label3 = Label(tab3, text = '--- Busqueda de pacientes ---', pady = 5, padx = 5)
 label3.grid(column = 0, row = 0)
 label3.configure(bg = '#3d424a', foreground = "white", font=("Courier", 15, "bold"))
 
-label4 = Label(tab4, text = 'Exportar a archivo', pady = 5, padx = 5)
+label4 = Label(tab4, text = '--- Exportar a archivo ---', pady = 5, padx = 5)
 label4.grid(column = 0, row = 0)
 label4.configure(bg = '#3d424a', foreground = "white",  font=("Courier", 15, "bold"))
 
-label5 = Label(tab5, text = 'Acerca de...', pady = 5, padx = 5)
+label5 = Label(tab5, text = '--- Acerca de... ---', pady = 5, padx = 5)
 label5.grid(column = 0, row = 0)
 label5.configure(bg = '#3d424a', foreground = "white",  font=("Courier", 15, "bold"))
 
 #Inicio
 l1 = Label(tab1, text = "Nombre(s):", padx = 5, pady = 5)
 l1.grid(column = 0, row = 1)
+l1.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 fname_raw_entry = StringVar()
 inp_name = Entry(tab1, textvariable=fname_raw_entry, width = 50)
 inp_name.grid(column = 1, row = 1)
 
 l2 = Label(tab1, text = "Apellido(s):", padx = 5, pady = 5)
 l2.grid(column = 0, row = 2)
+l2.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 lname_raw_entry = StringVar()
 inp_lname = Entry(tab1, textvariable=lname_raw_entry, width = 50)
 inp_lname.grid(column = 1, row = 2)
 
 l3 = Label(tab1, text = "Correo electronico:", padx = 5, pady = 5)
 l3.grid(column = 0, row = 3)
+l3.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 mail_raw_entry = StringVar()
 inp_mail = Entry(tab1, textvariable=mail_raw_entry, width = 50)
 inp_mail.grid(column = 1, row = 3)
 
 l4 = Label(tab1, text = "Edad:", padx = 5, pady = 5)
 l4.grid(column = 0, row = 4)
+l4.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 age_raw_entry = StringVar()
 inp_age = Entry(tab1, textvariable=age_raw_entry, width = 50)
 inp_age.grid(column = 1, row = 4)
 
 l5 = Label(tab1, text = "Fecha de Nacimiento:", padx = 5, pady = 5)
 l5.grid(column = 0, row = 5)
+l5.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 dob_raw_entry = StringVar()
 inp_dob = DateEntry(tab1,width = 30, textvariable=dob_raw_entry, background = 'grey', foreground='white', borderwidth = 2, year = 2019 )
 inp_dob.grid(column = 1, row = 5)
 
 l6 = Label(tab1, text = "Direccion:", padx = 5, pady = 5)
 l6.grid(column = 0, row = 6)
+l6.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 dire_raw_entry = StringVar()
 inp_dire = Entry(tab1, textvariable=dire_raw_entry, width = 50)
 inp_dire.grid(column = 1, row = 6)
 
 l7 = Label(tab1, text = "Telefono de contacto:", padx = 5, pady = 5)
 l7.grid(column = 0, row = 7)
+l7.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 fono_raw_entry = StringVar()
 inp_fono = Entry(tab1, textvariable=fono_raw_entry, width = 50)
 inp_fono.grid(column = 1, row = 7)
 
-boton0 = Button(tab1, text = 'CREAR BASE', command = crear_tabla)
-boton0.grid(row = 11)
+#boton0 = Button(tab1, text = 'CREAR BASE', command = crear_tabla)
+#boton0.grid(row = 11)
 
-boton1 = Button(tab1, text = 'Añadir', width = 20, bg = '#B0AFAE', fg = '#FFFFFF', command = add_data)
+boton1 = Button(tab1, text = 'Añadir', width = 20, bg = '#3b547d', fg = '#FFFFFF', command = add_data)
 boton1.grid(row = 8, column = 0, pady = 45, padx = 45)
 
-boton2 = Button(tab1, text = 'Limpiar Campos', width = 20, bg = '#B0AFAE', fg = '#FFFFFF' )
+boton2 = Button(tab1, text = 'Limpiar Campos', width = 20, bg = '#3b547d', fg = '#FFFFFF' )
 boton2.grid(row = 8, column = 1, pady = 25, padx = 25)
 
 tab1_display = ScrolledText(tab1, height = 10)
 tab1_display.grid(row = 9, pady = 5, padx = 5, columnspan = 2)
 
-boton3 = Button(tab1, text = 'Limpiar Resultados', width = 20, bg = '#B0AFAE', fg = '#FFFFFF' )
+boton3 = Button(tab1, text = 'Limpiar Resultados', width = 20, bg = '#3b547d', fg = '#FFFFFF' )
 boton3.grid(row = 10, column = 1, pady = 25, padx = 25)
 
 #Listado
 
-boton_ver = Button(tab2, text = 'Listar pacientes', width = 20, bg = '#B0AFAE', fg = '#FFFFFF', command = ver_todo)
+boton_ver = Button(tab2, text = 'Listar pacientes', width = 20, bg = '#3b547d', fg = '#FFFFFF', command = ver_todo)
 boton_ver.grid(row = 1, column = 0, padx = 10, pady = 10)
 #Treeview
 tree = ttk.Treeview(tab2, column = ("c1", "c2", "c3", "c4", "c5", "c6", "c7"), show='headings')
@@ -156,17 +163,18 @@ tree.grid(column = 0, row = 10, columnspan = 3, padx = 5, pady = 5)
 
 buscar = Label(tab3, text = "Buscar pacientes", padx = 10, pady = 10)
 buscar.grid(column = 0 , row = 1)
+buscar.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 search_raw_entry = StringVar()
 inp_buscar = Entry(tab3, textvariable= search_raw_entry, width = 30)
 inp_buscar.grid(row = 1, column = 1)
 
-boton4 = Button(tab3, text = "Limpiar busqueda", width = 20, bg = '#B0AFAE' , fg = '#FFFFFF')#, COMMAND = borrar_ingresado)
+boton4 = Button(tab3, text = "Limpiar busqueda", width = 20, bg = '#3b547d' , fg = '#FFFFFF')#, COMMAND = borrar_ingresado)
 boton4.grid(row=2, column = 1, padx = 10, pady = 10)
 
-boton5 = Button(tab3, text = "Limpiar resultado", width = 20, bg = '#B0AFAE' , fg = '#FFFFFF')#, COMMAND = borrar_resultado)
+boton5 = Button(tab3, text = "Limpiar resultado", width = 20, bg = '#3b547d' , fg = '#FFFFFF')#, COMMAND = borrar_resultado)
 boton5.grid(row=2, column = 1, padx = 10, pady = 10)
 
-boton6 = Button(tab3, text = "Buscar", width = 20, bg = '#B0AFAE' , fg = '#FFFFFF')#, COMMAND = buscar_paciente)
+boton6 = Button(tab3, text = "Buscar", width = 20, bg = '#3b547d' , fg = '#FFFFFF')#, COMMAND = buscar_paciente)
 boton6.grid(row=1, column = 2, padx = 10, pady = 10)
 
 tab2_display = ScrolledText(tab3, height = 5)
