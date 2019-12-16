@@ -103,7 +103,7 @@ boton3.grid(row = 10, column = 1, pady = 25, padx = 25)
 
 #Listado
 
-boton_ver = Button(tab2, text = 'Listar pacientes', width = 20, bg = '#B0AFAE', fg = '#FFFFFF', command = ver_todo)
+boton_ver = Button(tab2, text = 'Listar pacientes', width = 20, bg = '#B0AFAE', fg = '#FFFFFF')#, command = ver_todo)
 boton_ver.grid(row = 1, column = 0, padx = 10, pady = 10)
 #Treeview
 tree = ttk.Treeview(tab2, column = ("c1", "c2", "c3", "c4", "c5", "c6", "c7"), show='headings')
@@ -116,7 +116,28 @@ tree.heading("#6", text = "Direccion")
 tree.heading("#7", text = "Telefono")
 tree.grid(column = 0, row = 10, columnspan = 3, padx = 5, pady = 5)
 
+
 #Busqueda
+
+buscar = Label(tab3, text = "Buscar pacientes", padx = 10, pady = 10)
+buscar.grid(column = 0 , row = 1)
+search_raw_entry = StringVar()
+inp_buscar = Entry(tab3, textvariable= search_raw_entry, width = 30)
+inp_buscar.grid(row = 1, column = 1)
+
+boton4 = Button(tab3, text = "Limpiar busqueda", width = 20, bg = '#B0AFAE' , fg = '#FFFFFF')#, COMMAND = borrar_ingresado)
+boton4.grid(row=2, column = 1, padx = 10, pady = 10)
+
+boton5 = Button(tab3, text = "Limpiar resultado", width = 20, bg = '#B0AFAE' , fg = '#FFFFFF')#, COMMAND = borrar_resultado)
+boton5.grid(row=2, column = 1, padx = 10, pady = 10)
+
+boton6 = Button(tab3, text = "Buscar", width = 20, bg = '#B0AFAE' , fg = '#FFFFFF')#, COMMAND = buscar_paciente)
+boton6.grid(row=1, column = 2, padx = 10, pady = 10)
+
+tab2_display = ScrolledText(tab3, height = 5)
+tab2_display.grid(row = 10, column = 0, columnspan = 3, pady = 5, padx = 6)
+
+
 
 #Exportar
 
