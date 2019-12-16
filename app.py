@@ -23,22 +23,25 @@ def add_data(name, lastname, email, age, date_of_birth, address, phonenumber):
     c.commit()
 
 def ver_todo():
-    window.geometry("1400x400")
+    root.geometry("1400x400")
     c.execute('SELECT * FROM "pacientes";')
     data = c.fetchall()
     for row in data:
         tree.insert("", tk.END, values=row)
 
 #Estructura y layout
-window = Tk()
-window.title("Registro de Pacientes")
-window.geometry("700x650")
+root = Tk()
+root.title("Registro de Pacientes")
+root.geometry("700x650")
 
-style = ttk.Style(window)
+style = ttk.Style(root)
 style.configure("TNotebook", tabposition = 'n')
+style.configure(root, bg = 'gray')
+style.configure('TLabel', background='#3d424a#3d424a', foreground='white')
+style.configure('TFrame', background='#3d424a')
 
 #Tab layout
-tab_control = ttk.Notebook(window, style = 'TNotebook')
+tab_control = ttk.Notebook(root, style = 'TNotebook')
 
 tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
@@ -57,18 +60,23 @@ tab_control.pack(expand=1, fill="both")
 
 label1 = Label(tab1, text = 'Ingreso de datos de pacientes', pady = 5, padx = 5)
 label1.grid(column = 0, row = 0)
+label1.configure(bg = '#3d424a', foreground = "white", font=("Courier", 15, "bold"))
 
 label2 = Label(tab2, text = 'Listado de pacientes', pady = 5, padx = 5)
 label2.grid(column = 0, row = 0)
+label2.configure(bg = '#3d424a', foreground = "white", font=("Courier", 15, "bold"))
 
 label3 = Label(tab3, text = 'Busqueda de pacientes', pady = 5, padx = 5)
 label3.grid(column = 0, row = 0)
+label3.configure(bg = '#3d424a', foreground = "white", font=("Courier", 15, "bold"))
 
 label4 = Label(tab4, text = 'Exportar a archivo', pady = 5, padx = 5)
 label4.grid(column = 0, row = 0)
+label4.configure(bg = '#3d424a', foreground = "white",  font=("Courier", 15, "bold"))
 
 label5 = Label(tab5, text = 'Acerca de...', pady = 5, padx = 5)
 label5.grid(column = 0, row = 0)
+label5.configure(bg = '#3d424a', foreground = "white",  font=("Courier", 15, "bold"))
 
 #Inicio
 l1 = Label(tab1, text = "Nombre(s):", padx = 5, pady = 5)
@@ -172,4 +180,4 @@ tab2_display.grid(row = 10, column = 0, columnspan = 3, pady = 5, padx = 6)
 
 
 
-window.mainloop()
+root.mainloop()
