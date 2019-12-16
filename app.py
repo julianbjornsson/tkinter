@@ -5,6 +5,30 @@ from tkcalendar import Calendar, DateEntry
 from tkinter.scrolledtext import *
 from tkinter import messagebox
 
+# DB:
+
+import sqlite3
+import csv
+
+conn = sqlite3.connect("data.db")
+c = conn.cursor()
+
+def crear_tabla():
+    c.execute('CREATE TABLE IF NOT EXISTS "pacientes" ("name" TEXT, "lastname" TEXT, "email" TEXT, "age" TEXT, "date_of_birth" TEXT, "address" TEXT, "phonenumber" REAL);')
+    c.commit()
+
+def add_data(name, lastname, email, age, date_of_birth, address, phonenumber):
+    window.geometry("700x650")
+    c.execute('INSERT INTO pacientes (name, lastname, email, age, date_of_birth, address, phonenumber) VALUES (?,?,?,?,?,?,?);', (name, lastname, email, age, date_of_birth, address, phonenumber))
+    c.commit()
+
+def ver_todo():
+    window.geometry("1400x400")
+    c.execute('SELECT * FROM "pacientes";')
+    data = c.fetchall()
+    for row in data:
+        tree.insert("", tk.END, values=row)
+
 #Estructura y layout
 window = Tk()
 window.title("Registro de Pacientes")
@@ -89,7 +113,10 @@ fono_raw_entry = StringVar()
 inp_fono = Entry(tab1, textvariable=fono_raw_entry, width = 50)
 inp_fono.grid(column = 1, row = 7)
 
-boton1 = Button(tab1, text = 'Añadir', width = 20, bg = '#B0AFAE', fg = '#FFFFFF' )
+boton0 = Button(tab1, text = 'CREAR BASE', command = crear_tabla)
+boton0.grid(row = 11)
+
+boton1 = Button(tab1, text = 'Añadir', width = 20, bg = '#B0AFAE', fg = '#FFFFFF', command = add_data)
 boton1.grid(row = 8, column = 0, pady = 45, padx = 45)
 
 boton2 = Button(tab1, text = 'Limpiar Campos', width = 20, bg = '#B0AFAE', fg = '#FFFFFF' )
@@ -103,7 +130,7 @@ boton3.grid(row = 10, column = 1, pady = 25, padx = 25)
 
 #Listado
 
-boton_ver = Button(tab2, text = 'Listar pacientes', width = 20, bg = '#B0AFAE', fg = '#FFFFFF')#, command = ver_todo)
+boton_ver = Button(tab2, text = 'Listar pacientes', width = 20, bg = '#B0AFAE', fg = '#FFFFFF', command = ver_todo)
 boton_ver.grid(row = 1, column = 0, padx = 10, pady = 10)
 #Treeview
 tree = ttk.Treeview(tab2, column = ("c1", "c2", "c3", "c4", "c5", "c6", "c7"), show='headings')
