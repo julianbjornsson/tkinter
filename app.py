@@ -29,6 +29,7 @@ def clear_text():
     entry_age.delete('0', END)
     entry_address.delete('0', END)
     entry_phone.delete('0', END)
+    entry_cal.delete('0', END)
 
 def add_details():
     name = entry_fname.get()
@@ -45,6 +46,9 @@ def add_details():
     tab1_display.insert(tk.END, result)
     messagebox.showinfo(title="Paciente nuevo", message = "El paciente {} {} ha sido añadido con exito a la base de datos".format(name, lastname))
 
+def clean_results():
+    tab1_display.delete('1.0', END)
+
 def ver_todo():
     window.geometry("1400x400")
     c.execute('SELECT * FROM "pacientes";')
@@ -52,10 +56,23 @@ def ver_todo():
     for row in data:
         tree.insert("", tk.END, values=row)
 
-def buscarPaciente(name):
-    c.execute('SELECT * FROM "pacientes" WHERE name = "{}"'.format(name))
+def buscarPaciente():
+    name = inp_buscar.get()
+    c.execute('SELECT * FROM pacientes WHERE name = "{}"'.format(name))
     data = c.fetchall()
-    return data
+    dataLimpia = ''.join(str(data))
+    str1 = ""
+    for ele in dataLimpia:
+        str1 += ele
+    str2 = str1[2:-3]
+    if name in str2:
+        tab2_display.insert(tk.END, str2)
+    else:
+        messagebox.showinfo(title = "Alerta", message = "No hay registros")
+
+def limpiarBusqueda():
+    tab2_display.delete('1.0', END)
+    inp_buscar.delete('0', END)
 
 
 #Estructura y layout
@@ -171,7 +188,7 @@ boton2.grid(row = 8, column = 1, pady = 25, padx = 25)
 tab1_display = ScrolledText(tab1, height = 10)
 tab1_display.grid(row = 9, pady = 5, padx = 5, columnspan = 2)
 
-boton3 = Button(tab1, text = 'Limpiar Resultados', width = 20, bg = '#3b547d', fg = '#FFFFFF' )
+boton3 = Button(tab1, text = 'Limpiar Resultados', width = 20, bg = '#3b547d', fg = '#FFFFFF', command = clean_results )
 boton3.grid(row = 10, column = 1, pady = 25, padx = 25)
 
 #Listado
@@ -199,13 +216,13 @@ search_raw_entry = StringVar()
 inp_buscar = Entry(tab3, textvariable= search_raw_entry, width = 30)
 inp_buscar.grid(row = 1, column = 1)
 
-boton4 = Button(tab3, text = "Limpiar busqueda", width = 20, bg = '#3b547d' , fg = '#FFFFFF')#, COMMAND = borrar_ingresado)
+boton4 = Button(tab3, text = "Limpiar busqueda", width = 20, bg = '#3b547d' , fg = '#FFFFFF')
 boton4.grid(row=2, column = 1, padx = 10, pady = 10)
 
-boton5 = Button(tab3, text = "Limpiar resultado", width = 20, bg = '#3b547d' , fg = '#FFFFFF')#, COMMAND = borrar_resultado)
+boton5 = Button(tab3, text = "Limpiar resultado", width = 20, bg = '#3b547d' , fg = '#FFFFFF', command = limpiarBusqueda)
 boton5.grid(row=2, column = 1, padx = 10, pady = 10)
 
-boton6 = Button(tab3, text = "Buscar", width = 20, bg = '#3b547d' , fg = '#FFFFFF')#, COMMAND = buscar_paciente)
+boton6 = Button(tab3, text = "Buscar", width = 20, bg = '#3b547d' , fg = '#FFFFFF', command = buscarPaciente)
 boton6.grid(row=1, column = 2, padx = 10, pady = 10)
 
 tab2_display = ScrolledText(tab3, height = 5)
