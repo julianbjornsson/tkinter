@@ -15,33 +15,62 @@ c = conn.cursor()
 
 def crear_tabla():
     c.execute('CREATE TABLE IF NOT EXISTS "pacientes" ("name" TEXT, "lastname" TEXT, "email" TEXT, "age" TEXT, "date_of_birth" TEXT, "address" TEXT, "phonenumber" REAL);')
-    c.commit()
-
-def add_data(name, lastname, email, age, date_of_birth, address, phonenumber):
-    window.geometry("750x650")
-    c.execute('INSERT INTO pacientes (name, lastname, email, age, date_of_birth, address, phonenumber) VALUES ({}, {}, {}, {}, {},{}, {})'.format(name, lastname, email, age, date_of_birth, address, phonenumber))
     conn.commit()
 
+#def add_data(name, lastname, email, age, date_of_birth, address, phonenumber):
+    #c.execute('INSERT INTO "pacientes" (name, lastname, email, age, date_of_birth, address, phonenumber) VALUES (?,?,?,?,?,?,?)',(name, lastname, email, age, date_of_birth, address, phonenumber))
+    #conn.commit()
+
+
+def clear_text():
+    entry_fname.delete('0', END)
+    entry_lname.delete('0', END)
+    entry_email.delete('0', END)
+    entry_age.delete('0', END)
+    entry_address.delete('0', END)
+    entry_phone.delete('0', END)
+
+def add_details():
+    name = entry_fname.get()
+    lastname = entry_lname.get()
+    email = entry_email.get()
+    age = entry_age.get()
+    date_of_birth = cal.get()
+    address = entry_address.get()
+    phonenumber = entry_phone.get()
+    #add_data(name, lastname, email, age, date_of_birth, address, phonenumber)
+    c.execute('INSERT INTO pacientes (name, lastname, email, age, date_of_birth, address, phonenumber) VALUES (?,?,?,?,?,?,?);',(name, lastname, email, age, date_of_birth, address, phonenumber))
+    conn.commit()
+    result = '\nNombre(s): {}, \nApellido(s): {}, \nEmail: {}, \nEdad: {}, \nFecha de Nacimiento: {}, \nDireccion: {}, \nTelefono: {}'.format(name, lastname, email, age, date_of_birth, address, phonenumber)
+    tab1_display.insert(tk.END, result)
+    messagebox.showinfo(title="Paciente nuevo", message = "El paciente {} {} ha sido añadido con exito a la base de datos".format(name, lastname))
+
 def ver_todo():
-    root.geometry("1400x400")
+    window.geometry("1400x400")
     c.execute('SELECT * FROM "pacientes";')
     data = c.fetchall()
     for row in data:
         tree.insert("", tk.END, values=row)
 
-#Estructura y layout
-root = Tk()
-root.title("Registro de Pacientes")
-root.geometry("700x650")
+def buscarPaciente(name):
+    c.execute('SELECT * FROM "pacientes" WHERE name = "{}"'.format(name))
+    data = c.fetchall()
+    return data
 
-style = ttk.Style(root)
+
+#Estructura y layout
+window = Tk()
+window.title("Registro de Pacientes")
+window.geometry("700x650")
+
+style = ttk.Style(window)
 style.configure("TNotebook", tabposition = 'n')
-style.configure(root, bg = 'gray')
+style.configure(window, bg = 'gray')
 style.configure('TLabel', background='#3d424a#3d424a', foreground='white')
 style.configure('TFrame', background='#3d424a')
 
 #Tab layout
-tab_control = ttk.Notebook(root, style = 'TNotebook')
+tab_control = ttk.Notebook(window, style = 'TNotebook')
 
 tab1 = ttk.Frame(tab_control)
 tab2 = ttk.Frame(tab_control)
@@ -57,6 +86,8 @@ tab_control.add(tab4,text = f'{"Exportar":^20s}')
 tab_control.add(tab5,text = "Acerca de...")
 
 tab_control.pack(expand=1, fill="both")
+
+crear_tabla()
 
 label1 = Label(tab1, text = '--- Ingreso de datos de pacientes ---', pady = 5, padx = 5)
 label1.grid(column = 1, row = 0)
@@ -83,58 +114,58 @@ l1 = Label(tab1, text = "Nombre(s):", padx = 5, pady = 5)
 l1.grid(column = 0, row = 1)
 l1.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 fname_raw_entry = StringVar()
-inp_name = Entry(tab1, textvariable=fname_raw_entry, width = 50)
-inp_name.grid(column = 1, row = 1)
+entry_fname = Entry(tab1, textvariable=fname_raw_entry, width = 50)
+entry_fname.grid(column = 1, row = 1)
 
 l2 = Label(tab1, text = "Apellido(s):", padx = 5, pady = 5)
 l2.grid(column = 0, row = 2)
 l2.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 lname_raw_entry = StringVar()
-inp_lname = Entry(tab1, textvariable=lname_raw_entry, width = 50)
-inp_lname.grid(column = 1, row = 2)
+entry_lname = Entry(tab1, textvariable=lname_raw_entry, width = 50)
+entry_lname.grid(column = 1, row = 2)
 
 l3 = Label(tab1, text = "Correo electronico:", padx = 5, pady = 5)
 l3.grid(column = 0, row = 3)
 l3.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 mail_raw_entry = StringVar()
-inp_mail = Entry(tab1, textvariable=mail_raw_entry, width = 50)
-inp_mail.grid(column = 1, row = 3)
+entry_email = Entry(tab1, textvariable=mail_raw_entry, width = 50)
+entry_email.grid(column = 1, row = 3)
 
 l4 = Label(tab1, text = "Edad:", padx = 5, pady = 5)
 l4.grid(column = 0, row = 4)
 l4.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 age_raw_entry = StringVar()
-inp_age = Entry(tab1, textvariable=age_raw_entry, width = 50)
-inp_age.grid(column = 1, row = 4)
+entry_age = Entry(tab1, textvariable=age_raw_entry, width = 50)
+entry_age.grid(column = 1, row = 4)
 
 l5 = Label(tab1, text = "Fecha de Nacimiento:", padx = 5, pady = 5)
 l5.grid(column = 0, row = 5)
 l5.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 dob_raw_entry = StringVar()
-inp_dob = DateEntry(tab1,width = 30, textvariable=dob_raw_entry, background = 'grey', foreground='white', borderwidth = 2, year = 2019 )
-inp_dob.grid(column = 1, row = 5)
+cal = DateEntry(tab1,width = 30, textvariable=dob_raw_entry, background = 'grey', foreground='white', borderwidth = 2, year = 2019 )
+cal.grid(column = 1, row = 5)
 
 l6 = Label(tab1, text = "Direccion:", padx = 5, pady = 5)
 l6.grid(column = 0, row = 6)
 l6.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 dire_raw_entry = StringVar()
-inp_dire = Entry(tab1, textvariable=dire_raw_entry, width = 50)
-inp_dire.grid(column = 1, row = 6)
+entry_address = Entry(tab1, textvariable=dire_raw_entry, width = 50)
+entry_address.grid(column = 1, row = 6)
 
 l7 = Label(tab1, text = "Telefono de contacto:", padx = 5, pady = 5)
 l7.grid(column = 0, row = 7)
 l7.configure(bg = '#3d424a', foreground = "white", font = ("bold"))
 fono_raw_entry = StringVar()
-inp_fono = Entry(tab1, textvariable=fono_raw_entry, width = 50)
-inp_fono.grid(column = 1, row = 7)
+entry_phone = Entry(tab1, textvariable=fono_raw_entry, width = 50)
+entry_phone.grid(column = 1, row = 7)
 
 #boton0 = Button(tab1, text = 'CREAR BASE', command = crear_tabla)
 #boton0.grid(row = 11)
 
-boton1 = Button(tab1, text = 'Añadir', width = 20, bg = '#3b547d', fg = '#FFFFFF', command = add_data)
+boton1 = Button(tab1, text = 'Añadir', width = 20, bg = '#3b547d', fg = '#FFFFFF', command = add_details)
 boton1.grid(row = 8, column = 0, pady = 45, padx = 45)
 
-boton2 = Button(tab1, text = 'Limpiar Campos', width = 20, bg = '#3b547d', fg = '#FFFFFF' )
+boton2 = Button(tab1, text = 'Limpiar Campos', width = 20, bg = '#3b547d', fg = '#FFFFFF', command = clear_text )
 boton2.grid(row = 8, column = 1, pady = 25, padx = 25)
 
 tab1_display = ScrolledText(tab1, height = 10)
@@ -188,4 +219,4 @@ tab2_display.grid(row = 10, column = 0, columnspan = 3, pady = 5, padx = 6)
 
 
 
-root.mainloop()
+window.mainloop()
